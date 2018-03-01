@@ -45,30 +45,47 @@ public class RideCentricSol extends RideCentricBase {
 
     @Override
     int matchCab(Ride ride) {
-        List<ArrayList<Cab>> closeStops = kdTree.nearest(new double[]{ride.a, ride.b}, 5);
+        List<ArrayList<Cab>> closeStops = kdTree.nearest(new double[]{ride.a, ride.b}, 10);
 
         Cab best = null;
+        ArrayList<Cab> stopUsed = null;
+        int arriveBest = 0;
 
         for (ArrayList<Cab> stop : closeStops) {
             for (Cab cab : stop) {
                 int arrive = cab.available + Math.abs(cab.x - ride.a) + Math.abs(cab.y - ride.b);
                 if (arrive <= ride.s) {
                     stop.remove(cab);
+                    cab.x = ride.x;
+                    cab.y = ride.y;
+                    cab.available = ride.s + Math.abs(ride.x - ride.a) + Math.abs(ride.y - ride.b);
+                    kdTree.nearest(new double[]{cab.x, cab.y}).add(cab);
                     return cab.id;
                 }
 
                 if (arrive <= ride.f - Math.abs(ride.a - ride.x) - Math.abs(ride.b - ride.y)) {
+                    arriveBest = arrive;
                     best = cab;
+                    stopUsed = stop;
                 }
             }
         }
 
         if (best != null) {
+            stopUsed.remove(best);
+            best.available = arriveBest + Math.abs(ride.x - ride.a) + Math.abs(ride.y - ride.b);
+            best.x = ride.x;
+            best.y = ride.y;
+            kdTree.nearest(new double[]{best.x, best.y}).add(best);
             return best.id;
         }
 
         if (freeCabs >= 0) {
-            return --freeCabs;
+            int newAvailable = ride.a + ride.b + Math.abs(ride.x - ride.a) + Math.abs(ride.y - ride.b);
+            int newId = --freeCabs;
+            Cab newCab = new Cab(newId, ride.x, ride.y, newAvailable);
+            kdTree.nearest(new double[]{newCab.x, newCab.y}).add(newCab);
+            return newId;
         }
 
         return -1;
