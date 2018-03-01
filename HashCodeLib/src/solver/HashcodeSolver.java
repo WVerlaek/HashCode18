@@ -27,6 +27,7 @@ public abstract class HashcodeSolver {
      *
      * @param file the input file to solve, and defines the output file
      * @param printToFile whether the output will be printed to the output file, otherwise it will be printed to System.out
+     * @param makeUniqueOutputFile whether to override the default output file, or create a new unique file
      */
     public HashcodeSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
         this.file = file;
