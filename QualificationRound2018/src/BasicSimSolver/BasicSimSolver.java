@@ -6,11 +6,10 @@ import io.InputReader;
 import model.Ride;
 import output.SelfDrivingSolution;
 import solver.Solution;
+import util.DistUtil;
 
 import java.io.PrintStream;
-import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class BasicSimSolver extends RidesSolver {
 
@@ -44,28 +43,19 @@ public class BasicSimSolver extends RidesSolver {
         takenRides = new boolean[nRides];
     }
 
-    //
-//    public double computeRideReward(int t, int r, int c, Ride ride) {
-//
-//    }
-//
-//    public Ride findRide(int t, int r, int c) {
-//        return null;
-//    }
-//
-//    public Triple<Ride, Integer, Integer, Integer> perCab(int t, int r, int c, int depthLim) {
-//        return
-//    }
-//
-
-
     @Override
     public SelfDrivingSolution solve() {
 
+        // keeps track of which rides are done by which cabs
+        List<List<Ride>> ridesOfCabs = new ArrayList<>();
+
         Queue<Event> Q = new PriorityQueue<>();
         for (int i = 0; i < grid.F; i++) {
-            Q.add(new Event(0, i));
+            Q.add(new Event(0, i, 0, 0));
+            ridesOfCabs.add(new ArrayList<>());
         }
+
+        RideFinder rideFinder = new RideFinder();
 
 
         while (!Q.isEmpty()) {
@@ -76,14 +66,47 @@ public class BasicSimSolver extends RidesSolver {
 
             int cabId = e.cabId;
 
-            // todo search for new ride
+            Ride nextRide = rideFinder.findNextRide(grid, rides, cabId, e.time, takenRides, e.row, e.col);
+            if (nextRide == null) {
+                // find a ride through linear search
+                for (int i = 0; i < rides.length; i++) {
+                    if (takenRides[i]) {
+                        continue;
+                    }
+                    Ride ride = rides[i];
 
+                    int endTime = DistUtil.endTime(e.row, e.col, e.time, ride);
+                    if (endTime <= grid.T) {
+                        nextRide = ride;
+                        break;
+                    } // else not able to complete ride on time
+                }
+            }
+
+            if (nextRide != null) {
+                // mark ride
+                if (takenRides[nextRide.id]) {
+                    System.err.println("Ride already taken... " + nextRide.id);
+                }
+                takenRides[nextRide.id] = true;
+                ridesOfCabs.get(cabId).add(nextRide);
+
+                int endTime = DistUtil.endTime(e.row, e.col, e.time, nextRide);
+                Q.add(new Event(endTime, cabId, nextRide.x, nextRide.y));
+            } else {
+                // no more rides available, even not after a linear search
+                // this cap will stop its work.
+            }
         }
 
 
         SelfDrivingSolution.Builder builder = new SelfDrivingSolution.Builder(grid);
 
         // add rides for cabs
+        Ride[] rideArrayType = new Ride[0];
+        for (List<Ride> rides : ridesOfCabs) {
+            builder.addVehicle(rides.toArray(rideArrayType));
+        }
 
         return builder.build(true);
     }
@@ -91,10 +114,13 @@ public class BasicSimSolver extends RidesSolver {
     static class Event implements Comparable<Event> {
         int cabId;
         int time;
+        int row, col;
 
-        public Event(int time, int cabId) {
+        public Event(int time, int cabId, int row, int col) {
             this.cabId = cabId;
             this.time = time;
+            this.row = row;
+            this.col = col;
         }
 
         @Override
