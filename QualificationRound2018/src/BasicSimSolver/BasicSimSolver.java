@@ -4,6 +4,7 @@ import base.RidesSolver;
 import io.InputFile;
 import io.InputReader;
 import model.Ride;
+import output.SelfDrivingSolution;
 import solver.Solution;
 
 import java.io.PrintStream;
@@ -42,9 +43,10 @@ public class BasicSimSolver extends RidesSolver {
 //        return
 //    }
 //
-    @Override
-    public Solution solveAndPrintSolution(PrintStream out) {
 
+
+    @Override
+    public SelfDrivingSolution solve() {
         return null;
     }
 }
