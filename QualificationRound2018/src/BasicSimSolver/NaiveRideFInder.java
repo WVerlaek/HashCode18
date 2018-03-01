@@ -10,7 +10,7 @@ public class NaiveRideFInder extends RideFinder {
     static double RIDE_REWARD_CONST = 1;
 
     static final double SCORE_NO_NEXT_RIDE_FOUND = -10;
-    static final double SCORE_NEXT_RIDE_DISCOUNT_FACTOR = 0.4d;
+    static final double SCORE_NEXT_RIDE_DISCOUNT_FACTOR = 0.8d;
 
     public Pair<Ride, Double> findMaxRewardRide(Grid grid, Ride[] rides, boolean[] takenRides, int time, int cabRow, int cabCol, int depth) {
         Ride bestRide = null;
@@ -82,7 +82,7 @@ public class NaiveRideFInder extends RideFinder {
 
     @Override
     public Ride findNextRide(Grid grid, Ride[] rides, int cabId, int time, boolean[] takenRides, int cabRow, int cabCol) {
-        int depth = 4;
+        int depth = 0;
 
         Pair<Ride, Double> bestRide = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth);
         return bestRide.a;

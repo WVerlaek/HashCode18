@@ -25,5 +25,9 @@ public class SolutionPrinter {
             }
             out.println();
         }
+
+        for (int i = 0; i < solution.grid.F - solution.vehicleRides.size(); i++) {
+            out.println();
+        }
     }
 }
