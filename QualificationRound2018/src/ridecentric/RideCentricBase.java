@@ -31,11 +31,14 @@ public abstract class RideCentricBase extends RidesSolver {
             }
             // TODO: keep track of non-matched rides for in the future?
         }
+        postprocess(ridesForCab);
         for (int i = 0; i < grid.F; i++) {
             builder.addVehicle(ridesForCab.get(i));
         }
         return builder.build(true);
     }
+
+    abstract void postprocess(List<List<Ride>> ridesForCab);
 
     abstract void preprocess();
 
