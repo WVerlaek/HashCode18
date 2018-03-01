@@ -55,7 +55,7 @@ public class RideCentricSol extends RideCentricBase {
 
     @Override
     int matchCab(Ride ride) {
-        List<ArrayList<Cab>> closeStops = kdTree.nearest(new double[]{ride.a, ride.b}, 10);
+        List<ArrayList<Cab>> closeStops = kdTree.nearest(new double[]{ride.a, ride.b}, 100);
 
         Cab best = null;
         ArrayList<Cab> stopUsed = null;
@@ -73,7 +73,7 @@ public class RideCentricSol extends RideCentricBase {
                     return cab.id;
                 }
 
-                if (arrive <= ride.f - Math.abs(ride.a - ride.x) - Math.abs(ride.b - ride.y)) {
+                if (best == null && (arrive <= ride.f - Math.abs(ride.a - ride.x) - Math.abs(ride.b - ride.y))) {
                     arriveBest = arrive;
                     best = cab;
                     stopUsed = stop;
@@ -121,7 +121,7 @@ public class RideCentricSol extends RideCentricBase {
     }
 
     public static void main(String[] args) {
-        InputFile file = new InputFile(InputFiles.A_EXAMPLE);
+        InputFile file = new InputFile(InputFiles.E_HIGH_BONUS);
         RidesSolver solv = new RideCentricSol(file, true, true);
     }
 }
