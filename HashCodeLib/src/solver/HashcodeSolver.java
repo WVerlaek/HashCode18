@@ -44,7 +44,7 @@ public abstract class HashcodeSolver {
         solution = solveAndPrintSolution(out);
 
         if (printToFile)
-            System.err.println("Printed output to " + file.outputFile());
+            System.err.println("Printed output to " + file.outputFile() + " - Score: " + solution.score);
     }
 
     private PrintStream prepareOutputFile(InputFile input, boolean makeUniqueOutputFile) {

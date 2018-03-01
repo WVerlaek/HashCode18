@@ -6,4 +6,8 @@ public class InputFiles {
     public static final String C_NO_HURRY = "c_no_hurry";
     public static final String D_METROPOLIS = "d_metropolis";
     public static final String E_HIGH_BONUS = "e_high_bonus";
+
+    public static final String[] ALL_FILES = new String[] {
+            A_EXAMPLE, B_SHOULD_BE_EASY, C_NO_HURRY, D_METROPOLIS, E_HIGH_BONUS
+    };
 }

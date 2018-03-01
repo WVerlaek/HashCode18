@@ -1,5 +1,6 @@
 package BasicSimSolver;
 
+import base.InputFiles;
 import base.RidesSolver;
 import io.InputFile;
 import io.InputReader;
@@ -125,6 +126,12 @@ public class BasicSimSolver extends RidesSolver {
         @Override
         public int compareTo(Event o) {
             return Integer.compare(time, o.time);
+        }
+    }
+
+    public static void main(String[] args) {
+        for (String file : InputFiles.ALL_FILES) {
+            new BasicSimSolver(new InputFile(file), true, true);
         }
     }
 }
