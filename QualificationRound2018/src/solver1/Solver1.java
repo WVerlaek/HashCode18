@@ -30,7 +30,7 @@ public class Solver1 extends HashcodeSolver {
 
     @Override
     public void parse(InputReader reader) {
-
+        //...
     }
 
     @Override
