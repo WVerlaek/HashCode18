@@ -14,9 +14,18 @@ public class NaiveRideFInder extends RideFinder {
         double bestReward = Double.MIN_VALUE;
 
         for (int i =0; i < rides.length; i++) {
-            if (takenRides[i] || DistUtil.endTime(cabRow, cabCol, time, rides[i]) > grid.T) {
+            Ride ride = rides[i];
+            int endTime = DistUtil.endTime(cabRow, cabCol, time, ride);
+
+            // conditions...
+            if (takenRides[i])
                 continue;
-            }
+            if (endTime > grid.T)
+                continue;
+            if (ride.a < time)
+                continue;
+            if (endTime > ride.f)
+                continue;
             // conditions...
 
 //            double reward = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth -rides[i], time, cabRow, cabCol, grid.B);
@@ -57,7 +66,6 @@ public class NaiveRideFInder extends RideFinder {
 //        return TRAVEL_COST_CONST * Integer.max(travelTime, ride.s - time) +
 //               RIDE_REWARD_CONST * DistUtil.timeToRideTo(ride.a, ride.b, ride.x, ride.y) +
 //               bonus;
-
     }
 
     @Override
@@ -66,17 +74,21 @@ public class NaiveRideFInder extends RideFinder {
         double bestReward = Double.MIN_VALUE;
 
         for (int i =0; i < rides.length; i++) {
-            if (takenRides[i] || DistUtil.endTime(cabRow, cabCol, time, rides[i]) > grid.T) {
+            Ride ride = rides[i];
+            int endTime = DistUtil.endTime(cabRow, cabCol, time, ride);
+            if (takenRides[i])
                 continue;
-            }
+            if (endTime > grid.T)
+                continue;
+            if (ride.a < time)
+                continue;
+            if (endTime > ride.f)
+                continue;
 
 //            double reward = findMaxRewardRide(rides[i], time, cabRow, cabCol, grid.B);
 //            if (reward > bestReward) {
 //                bestRide = rides[i];
 //            }
-
-
-
 
             // NB dont return rides that won't finish in time
 
