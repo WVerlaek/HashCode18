@@ -15,6 +15,8 @@ public class SolutionPrinter {
     public void printTo(PrintStream out) {
         for (Ride[] rides : solution.vehicleRides) {
             int m = rides.length;
+            if (m == 0) continue;
+
             out.print(m);
 
             for (Ride ride : rides) {
