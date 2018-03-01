@@ -28,12 +28,12 @@ public abstract class HashcodeSolver {
      * @param file the input file to solve, and defines the output file
      * @param printToFile whether the output will be printed to the output file, otherwise it will be printed to System.out
      */
-    public HashcodeSolver(InputFile file, boolean printToFile) {
+    public HashcodeSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
         this.file = file;
 
         PrintStream out;
         if (printToFile) {
-            out = prepareOutputFile(file);
+            out = prepareOutputFile(file, makeUniqueOutputFile);
         } else {
             out = System.out;
         }
@@ -46,9 +46,9 @@ public abstract class HashcodeSolver {
             System.err.println("Printed output to " + file.outputFile());
     }
 
-    private PrintStream prepareOutputFile(InputFile input) {
+    private PrintStream prepareOutputFile(InputFile input, boolean makeUniqueOutputFile) {
         try {
-            File file = new File(input.outputFile());
+            File file = new File(input.outputFile(makeUniqueOutputFile));
             file.getParentFile().mkdirs();
             if (!file.exists()) {
                 file.createNewFile();

@@ -3,7 +3,7 @@ package solver;
 /**
  * Created by s148327 on 23-2-2017.
  */
-public abstract class Solution {
+public class Solution {
 
     public long score;
 

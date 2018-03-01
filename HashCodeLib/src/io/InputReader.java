@@ -48,7 +48,7 @@ public class InputReader {
     }
 
     /** Read a single line from the input. Moves cursor to the next line. */
-    public String readLineString() {
+    public String readLineAsString() {
         try {
             return br.readLine();
         } catch (IOException e) {
@@ -58,23 +58,23 @@ public class InputReader {
 
     /** Read a single line and parse as int. */
     public int readLineInt() {
-        return Integer.parseInt(readLineString());
+        return Integer.parseInt(readLineAsString());
     }
 
     /** Read a single line and parse as long. */
-    public long readLineLong() {
-        return Long.parseLong(readLineString());
+    public long readLineAsLong() {
+        return Long.parseLong(readLineAsString());
     }
 
     /** Read a single line and parse as double. */
-    public double readLineDouble() {
-        return Double.parseDouble(readLineString());
+    public double readLineAsDouble() {
+        return Double.parseDouble(readLineAsString());
     }
 
     /** Read a single line and parse as char. If the line contains multiple characters,
      * only the first is returned (the rest will be ignored, cursor goes to next line). */
-    public char readLineChar() {
-        return readLineString().charAt(0);
+    public char readLineFirstChar() {
+        return readLineAsString().charAt(0);
     }
 
 
