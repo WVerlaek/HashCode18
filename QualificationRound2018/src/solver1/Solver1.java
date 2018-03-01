@@ -1,13 +1,12 @@
 package solver1;
 
+import base.RidesSolver;
 import io.InputFile;
 import io.InputReader;
-import solver.HashcodeSolver;
 import solver.Solution;
-
 import java.io.PrintStream;
 
-public class Solver1 extends HashcodeSolver {
+public class Solver1 extends RidesSolver {
     /**
      * Construct a solver for a specific input.
      * <p>
@@ -26,11 +25,6 @@ public class Solver1 extends HashcodeSolver {
      */
     public Solver1(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
         super(file, printToFile, makeUniqueOutputFile);
-    }
-
-    @Override
-    public void parse(InputReader reader) {
-        //...
     }
 
     @Override

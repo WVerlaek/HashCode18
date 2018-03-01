@@ -1,3 +1,5 @@
+package base;
+
 public class InputFiles {
     public static final String A_EXAMPLE = "a_example";
     public static final String B_SHOULD_BE_EASY = "b_should_be_easy";
