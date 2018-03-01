@@ -3,7 +3,12 @@ package base;
 import io.InputFile;
 import io.InputReader;
 import model.*;
+import output.SelfDrivingSolution;
+import output.SolutionPrinter;
 import solver.HashcodeSolver;
+import solver.Solution;
+
+import java.io.PrintStream;
 
 public abstract class RidesSolver extends HashcodeSolver {
     public Grid grid;
@@ -37,4 +42,16 @@ public abstract class RidesSolver extends HashcodeSolver {
             rides[i] = new Ride(i, a, b, x, y, s, f);
         }
     }
+
+    @Override
+    public Solution solveAndPrintSolution(PrintStream out) {
+        SelfDrivingSolution solution = solve();
+
+        SolutionPrinter printer = new SolutionPrinter(solution);
+        printer.printTo(out);
+
+        return solution;
+    }
+
+    public abstract SelfDrivingSolution solve();
 }
