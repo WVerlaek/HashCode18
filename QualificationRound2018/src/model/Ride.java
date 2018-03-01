@@ -15,4 +15,8 @@ public class Ride {
         this.s = s;
         this.f = f;
     }
+
+    public int dist() {
+        return Math.abs(a - x) + Math.abs(b - y);
+    }
 }
