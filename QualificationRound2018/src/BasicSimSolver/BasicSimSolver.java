@@ -76,7 +76,7 @@ public class BasicSimSolver extends RidesSolver {
                     Ride ride = rides[i];
 
                     int endTime = DistUtil.endTime(e.row, e.col, e.time, ride);
-                    if (endTime <= grid.T) {
+                    if (endTime <= grid.T && endTime <= ride.f) {
                         nextRide = ride;
                         break;
                     } // else not able to complete ride on time
