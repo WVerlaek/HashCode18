@@ -9,11 +9,14 @@ public class NaiveRideFInder extends RideFinder {
     static double TRAVEL_COST_CONST = -1;
     static double RIDE_REWARD_CONST = 1;
 
-    public Pair<Ride, Double> findMaxRewardRide(Grid grid, Ride[] rides, boolean[] takenRides, int time, int cabRow, int cabCol) {
+    static final double SCORE_NO_NEXT_RIDE_FOUND = -10;
+    static final double SCORE_NEXT_RIDE_DISCOUNT_FACTOR = 0.4d;
+
+    public Pair<Ride, Double> findMaxRewardRide(Grid grid, Ride[] rides, boolean[] takenRides, int time, int cabRow, int cabCol, int depth) {
         Ride bestRide = null;
         double bestReward = Double.MIN_VALUE;
 
-        for (int i =0; i < rides.length; i++) {
+        for (int i = 0; i < rides.length; i++) {
             Ride ride = rides[i];
             int endTime = DistUtil.endTime(cabRow, cabCol, time, ride);
 
@@ -22,11 +25,8 @@ public class NaiveRideFInder extends RideFinder {
                 continue;
             if (endTime > grid.T)
                 continue;
-            if (ride.a < time)
-                continue;
             if (endTime > ride.f)
                 continue;
-            // conditions...
 
 //            double reward = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth -rides[i], time, cabRow, cabCol, grid.B);
 //            if (reward > bestReward) {
@@ -35,16 +35,28 @@ public class NaiveRideFInder extends RideFinder {
 
 
             // calculate reward here...
-            takenRides[i] = true;
-            // recurse as well...
-//            findNextRide(...)
-            takenRides[i] = false;
+            double scoreNextRide = 0d;
+            if (depth > 0) {
+                takenRides[i] = true;
+                // recurse as well...
+                Pair<Ride, Double> recurse = findMaxRewardRide(grid, rides, takenRides, endTime, ride.x, ride.y, depth - 1);
+                takenRides[i] = false;
+                scoreNextRide = recurse == null ? SCORE_NO_NEXT_RIDE_FOUND : (recurse.b * SCORE_NEXT_RIDE_DISCOUNT_FACTOR);
+            }
+
+            // calculate score
+            int travelTime = DistUtil.timeToRideTo(cabRow, cabCol, ride.a, ride.b);
+            int bonus = (time + travelTime <= ride.s) ? grid.B : 0;
+            double totalScore = TRAVEL_COST_CONST * Integer.max(travelTime, ride.s - time) +
+                    RIDE_REWARD_CONST * DistUtil.timeToRideTo(ride.a, ride.b, ride.x, ride.y) +
+                    bonus +
+                    scoreNextRide;
 
             // check if this is best seen so far, update max
-
-
-            // NB dont return rides that won't finish in time
-
+            if (totalScore > bestReward) {
+                bestReward = totalScore;
+                bestRide = ride;
+            }
         }
 
         return new Pair<>(bestRide, bestReward);
@@ -70,33 +82,9 @@ public class NaiveRideFInder extends RideFinder {
 
     @Override
     public Ride findNextRide(Grid grid, Ride[] rides, int cabId, int time, boolean[] takenRides, int cabRow, int cabCol) {
-        Ride bestRide = null;
-        double bestReward = Double.MIN_VALUE;
+        int depth = 4;
 
-        for (int i =0; i < rides.length; i++) {
-            Ride ride = rides[i];
-            int endTime = DistUtil.endTime(cabRow, cabCol, time, ride);
-            if (takenRides[i])
-                continue;
-            if (endTime > grid.T)
-                continue;
-            if (ride.a < time)
-                continue;
-            if (endTime > ride.f)
-                continue;
-
-//            double reward = findMaxRewardRide(rides[i], time, cabRow, cabCol, grid.B);
-//            if (reward > bestReward) {
-//                bestRide = rides[i];
-//            }
-
-            // NB dont return rides that won't finish in time
-
-        }
-        return bestRide;
-    }
-
-    public int ridesfindRide(Grid grid, Ride[] rides, int cabId, int time, boolean[] takenRides, int cabRow, int cabCol, int depth) {
-        return 0;
+        Pair<Ride, Double> bestRide = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth);
+        return bestRide.a;
     }
 }
