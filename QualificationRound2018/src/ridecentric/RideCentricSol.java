@@ -1,6 +1,8 @@
 package ridecentric;
 
+import base.InputFiles;
 import base.RidesSolver;
+import datastructures.Pair;
 import io.InputFile;
 import kdtree.KDTree;
 import model.Ride;
@@ -11,13 +13,13 @@ import java.util.*;
 public class RideCentricSol extends RideCentricBase {
     int width = 5;
 
-    int freeCabs = this.grid.F;
+    int freeCabs;
     int rows = this.grid.R;
     int columns = this.grid.C;
     int nrOfRides = this.grid.N;
     int bonus = this.grid.B;
     int nrOfSteps = this.grid.T;
-    KDTree<ArrayList<Cab>> kdTree = new KDTree<>(2);
+    KDTree<ArrayList<Cab>> kdTree;
 
     int rideIndex = 0;
 
@@ -28,12 +30,20 @@ public class RideCentricSol extends RideCentricBase {
 
     @Override
     void preprocess() {
+        freeCabs = this.grid.F;
+        kdTree = new KDTree<>(2);
         Arrays.sort(this.rides, Comparator.comparingInt(ride -> ride.s));
 
         Random rnd = new Random();
+        Set<String> keysUsed = new HashSet<>(100);
         for (int i = 0; i < 100; i++) {
-            Ride ride = this.rides[rnd.nextInt(rides.length)];
-            kdTree.insert(new double[]{ride.a, ride.b}, new ArrayList<>());
+            int idx = rnd.nextInt(rides.length);
+            Ride ride = this.rides[idx];
+            String rideKey = ride.a + " " + ride.b;
+            if (!keysUsed.contains(rideKey)) {
+                kdTree.insert(new double[]{ride.a, ride.b}, new ArrayList<>());
+                keysUsed.add(rideKey);
+            }
         }
 
     }
@@ -108,5 +118,10 @@ public class RideCentricSol extends RideCentricBase {
             this.y = y;
             this.available = available;
         }
+    }
+
+    public static void main(String[] args) {
+        InputFile file = new InputFile(InputFiles.A_EXAMPLE);
+        RidesSolver solv = new RideCentricSol(file, true, true);
     }
 }

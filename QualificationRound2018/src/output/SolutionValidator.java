@@ -15,7 +15,7 @@ public class SolutionValidator {
         }
 
         // check that every ride is taken at most once
-        boolean[] takenRide = new boolean[solution.vehicleRides.size()];
+        boolean[] takenRide = new boolean[solution.grid.N];
         for (Ride[] rides : solution.vehicleRides) {
             if (rides.length == 0) {
                 valid = false;
