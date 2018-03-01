@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HashCode18.iml" filepath="$PROJECT_DIR$/HashCode18.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HashCodeLib/HashCodeLib.iml" filepath="$PROJECT_DIR$/HashCodeLib/HashCodeLib.iml" />
     </modules>
   </component>
 </project>
