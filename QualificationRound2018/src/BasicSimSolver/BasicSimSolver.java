@@ -9,8 +9,13 @@ import solver.Solution;
 
 import java.io.PrintStream;
 import java.util.Optional;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class BasicSimSolver extends RidesSolver {
+
+    boolean[] takenRides;
+
     /**
      * Construct a solver for a specific input.
      * <p>
@@ -30,7 +35,16 @@ public class BasicSimSolver extends RidesSolver {
     public BasicSimSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
         super(file, printToFile, makeUniqueOutputFile);
     }
-//
+
+    @Override
+    public void parse(InputReader reader) {
+        super.parse(reader);
+
+        int nRides = grid.N;
+        takenRides = new boolean[nRides];
+    }
+
+    //
 //    public double computeRideReward(int t, int r, int c, Ride ride) {
 //
 //    }
@@ -47,6 +61,45 @@ public class BasicSimSolver extends RidesSolver {
 
     @Override
     public SelfDrivingSolution solve() {
-        return null;
+
+        Queue<Event> Q = new PriorityQueue<>();
+        for (int i = 0; i < grid.F; i++) {
+            Q.add(new Event(0, i));
+        }
+
+
+        while (!Q.isEmpty()) {
+            Event e = Q.poll();
+            if (e.time > grid.T) {
+                break;
+            }
+
+            int cabId = e.cabId;
+
+            // todo search for new ride
+
+        }
+
+
+        SelfDrivingSolution.Builder builder = new SelfDrivingSolution.Builder(grid);
+
+        // add rides for cabs
+
+        return builder.build(true);
+    }
+
+    static class Event implements Comparable<Event> {
+        int cabId;
+        int time;
+
+        public Event(int time, int cabId) {
+            this.cabId = cabId;
+            this.time = time;
+        }
+
+        @Override
+        public int compareTo(Event o) {
+            return Integer.compare(time, o.time);
+        }
     }
 }
