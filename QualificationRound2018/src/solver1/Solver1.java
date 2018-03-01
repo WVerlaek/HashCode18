@@ -3,6 +3,7 @@ package solver1;
 import base.RidesSolver;
 import io.InputFile;
 import io.InputReader;
+import output.SelfDrivingSolution;
 import solver.Solution;
 import java.io.PrintStream;
 
@@ -28,7 +29,7 @@ public class Solver1 extends RidesSolver {
     }
 
     @Override
-    public Solution solveAndPrintSolution(PrintStream out) {
+    public SelfDrivingSolution solve() {
         return null;
     }
 }
