@@ -55,7 +55,7 @@ public class BasicSimSolver extends RidesSolver {
             ridesOfCabs.add(new ArrayList<>());
         }
 
-        RideFinder rideFinder = new RideFinder();
+        RideFinder rideFinder = new NaiveRideFInder();
 
 
         while (!Q.isEmpty()) {
