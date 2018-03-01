@@ -139,7 +139,7 @@ public class InputReader {
          * If a space follows the current char, the whitespace will be skipped and the
          * next read will be after the space.
          *
-         * Example:
+         * Examples:
          *  Line is "ab cd"
          *  Then calling nextChar() 4 times will return 'a', 'b', 'c', 'd' respectively.
          *

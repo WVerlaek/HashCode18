@@ -18,7 +18,7 @@ public abstract class HashcodeSolver {
      *
      * # Step 1
      * {@link #parse(InputReader)} will be called first, which allows you to
-     *  read the file and setup your data-structures.
+     *  read the input and setup your data-structures.
      *
      * # Step 2
      * {@link #solveAndPrintSolution(PrintStream)} is called next, here you
@@ -64,11 +64,10 @@ public abstract class HashcodeSolver {
     public abstract void parse(InputReader reader);
 
     /**
-     * Solve the problem, and print the output to System.out.
-     * When specified, the output will be redirected to the
-     * output file.
+     * Solve the problem, and print the output to the provided PrintStream.
+     * When specified, the output will be written to the output file.
      *
-     * Note: don't print any debugging
+     * Note: don't print any debugging lines through out, use System.out for that.
      */
     public abstract Solution solveAndPrintSolution(PrintStream out);
 
