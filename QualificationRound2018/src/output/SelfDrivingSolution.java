@@ -28,6 +28,7 @@ public class SelfDrivingSolution extends Solution {
 
     public static class Builder {
 
+        private static Ride[] rideArrayType = new Ride[0];
         private List<Ride[]> vehicleRides = new ArrayList<>();
         private Grid grid;
 
@@ -38,6 +39,10 @@ public class SelfDrivingSolution extends Solution {
         public Builder addVehicle(Ride... rides) {
             vehicleRides.add(rides);
             return this;
+        }
+
+        public Builder addVehicle(List<Ride> rides) {
+            return addVehicle(rides.toArray(rideArrayType));
         }
 
         public SelfDrivingSolution build(boolean validateSolution) {

@@ -17,7 +17,7 @@ public class NaiveRideFInder extends RideFinder {
         }
 
         //FIXME: need to account for having to wait
-        return TRAVEL_COST_CONST * travelTime +
+        return TRAVEL_COST_CONST * Integer.max(travelTime, ride.s - time) +
                RIDE_REWARD_CONST * DistUtil.timeToRideTo(ride.a, ride.b, ride.x, ride.y) +
                bonus;
 
@@ -45,5 +45,9 @@ public class NaiveRideFInder extends RideFinder {
 
         }
         return bestRide;
+    }
+
+    public int ridesfindRide(Grid grid, Ride[] rides, int cabId, int time, boolean[] takenRides, int cabRow, int cabCol, int depth) {
+        return 0;
     }
 }

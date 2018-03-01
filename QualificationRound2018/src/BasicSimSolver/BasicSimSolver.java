@@ -103,9 +103,8 @@ public class BasicSimSolver extends RidesSolver {
         SelfDrivingSolution.Builder builder = new SelfDrivingSolution.Builder(grid);
 
         // add rides for cabs
-        Ride[] rideArrayType = new Ride[0];
         for (List<Ride> rides : ridesOfCabs) {
-            builder.addVehicle(rides.toArray(rideArrayType));
+            builder.addVehicle(rides);
         }
 
         return builder.build(true);
