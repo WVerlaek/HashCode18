@@ -3,14 +3,18 @@ package BasicSimSolver;
 import datastructures.Pair;
 import model.Grid;
 import model.Ride;
+import org.omg.CORBA.MARSHAL;
 import util.DistUtil;
 
 public class NaiveRideFInder extends RideFinder {
-    static double TRAVEL_COST_CONST = -1;
+    static double TRAVEL_COST_CONST = -2;
     static double RIDE_REWARD_CONST = 1;
-
-    static final double SCORE_NO_NEXT_RIDE_FOUND = -10;
+    static final double SCORE_NO_NEXT_RIDE_FOUND = -100;
     static final double SCORE_NEXT_RIDE_DISCOUNT_FACTOR = 0.8d;
+    static final int MAX_DIST = 30000000;
+    static final int MAX_C = 3000000;
+    static final int MAX_R = 3000000;
+    static final int MIN_DIST = 0;
 
     public Pair<Ride, Double> findMaxRewardRide(Grid grid, Ride[] rides, boolean[] takenRides, int time, int cabRow, int cabCol, int depth) {
         Ride bestRide = null;
@@ -26,6 +30,12 @@ public class NaiveRideFInder extends RideFinder {
             if (endTime > grid.T)
                 continue;
             if (endTime > ride.f)
+                continue;
+            if (ride.dist() > MAX_DIST)
+                continue;
+            if (ride.a > MAX_R || ride.x > MAX_R || ride.b > MAX_C || ride.y > MAX_C)
+                continue;
+            if (ride.dist() < MIN_DIST)
                 continue;
 
 //            double reward = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth -rides[i], time, cabRow, cabCol, grid.B);
@@ -82,7 +92,7 @@ public class NaiveRideFInder extends RideFinder {
 
     @Override
     public Ride findNextRide(Grid grid, Ride[] rides, int cabId, int time, boolean[] takenRides, int cabRow, int cabCol) {
-        int depth = 0;
+        int depth = 1;
 
         Pair<Ride, Double> bestRide = findMaxRewardRide(grid, rides, takenRides, time, cabRow, cabCol, depth);
         return bestRide.a;

@@ -130,8 +130,11 @@ public class BasicSimSolver extends RidesSolver {
     }
 
     public static void main(String[] args) {
-        for (String file : InputFiles.ALL_FILES) {
-            new BasicSimSolver(new InputFile(file), true, true);
-        }
+        long totalScore = 0;
+//        for (String file : InputFiles.ALL_FILES) {
+//            totalScore += new BasicSimSolver(new InputFile(file), true, true).getSolution().score;
+//        }
+        totalScore += new BasicSimSolver(new InputFile(InputFiles.D_METROPOLIS), true, true).getSolution().score;
+        System.err.println(totalScore);
     }
 }
