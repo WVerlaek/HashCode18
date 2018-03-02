@@ -13,6 +13,7 @@ import java.io.PrintStream;
 public abstract class RidesSolver extends HashcodeSolver {
     public Grid grid;
     public Ride[] rides;
+    public SelfDrivingSolution realSol;
 
     public RidesSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
         super(file, printToFile, makeUniqueOutputFile);
@@ -46,9 +47,10 @@ public abstract class RidesSolver extends HashcodeSolver {
     @Override
     public Solution solveAndPrintSolution(PrintStream out) {
         SelfDrivingSolution solution = solve();
+        realSol = solution;
 
-        SolutionPrinter printer = new SolutionPrinter(solution);
-        printer.printTo(out);
+        //SolutionPrinter printer = new SolutionPrinter(solution);
+        //printer.printTo(out);
 
         return solution;
     }
