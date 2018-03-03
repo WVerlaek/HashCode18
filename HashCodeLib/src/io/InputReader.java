@@ -165,5 +165,9 @@ public class InputReader {
         public String toString() {
             return line;
         }
+
+        public int length() {
+            return line.length();
+        }
     }
 }

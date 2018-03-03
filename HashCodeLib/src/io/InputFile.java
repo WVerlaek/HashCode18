@@ -23,18 +23,31 @@ public class InputFile {
     }
 
     public String outputFile() {
-        return outputFile(false);
+        return "output/" + name.toLowerCase() + ".out";
     }
 
-    public String outputFile(boolean makeUnique) {
-        String unique;
-        if (makeUnique) {
-            SimpleDateFormat sdfDate = new SimpleDateFormat(" [yyyy-MM-dd HH-mm-ss]");
-            Date now = new Date();
-            unique = sdfDate.format(now);
-        } else {
-            unique = "";
-        }
-        return "output/" + name.toLowerCase() + unique + ".out";
+    public String outputFile(long withTimestamp, long score) {
+        String timestamp = formatTimestamp(withTimestamp);
+        return "output/" + name.toLowerCase() + " " + score + " " + timestamp + ".out";
+    }
+
+    public String outputFile(String dir, long withTimestamp, long score) {
+        String timestamp = formatTimestamp(withTimestamp);
+        return dir + name.toLowerCase() + " " + score + " " + timestamp + ".out";
+    }
+
+    public String outputFile(long withTimestamp) {
+        String timestamp = formatTimestamp(withTimestamp);
+        return "output/" + name.toLowerCase() + " " + timestamp + ".out";
+    }
+
+    private String formatTimestamp(long timestamp) {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("[yyyy-MM-dd HH-mm-ss]");
+        Date now = new Date(timestamp);
+        return sdfDate.format(now);
+    }
+
+    public String getName() {
+        return name.toLowerCase();
     }
 }

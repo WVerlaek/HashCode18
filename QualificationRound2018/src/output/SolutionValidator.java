@@ -2,8 +2,9 @@ package output;
 
 import model.Ride;
 
-public class SolutionValidator {
+public class SolutionValidator extends solver.SolutionValidator<SelfDrivingSolution> {
 
+    @Override
     public boolean isValidSolution(SelfDrivingSolution solution) {
         boolean valid = true;
 

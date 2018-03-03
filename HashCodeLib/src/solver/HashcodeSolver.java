@@ -1,5 +1,7 @@
 package solver;
 
+import io.BestSolutionTracker;
+import io.IncineratorOutputStream;
 import io.InputFile;
 import io.InputReader;
 
@@ -13,6 +15,8 @@ public abstract class HashcodeSolver {
     protected Solution solution;
     public InputFile file;
 
+    private BestSolutionTracker bestSolutionTracker = new BestSolutionTracker();
+
     /**
      * Construct a solver for a specific input.
      *
@@ -21,35 +25,48 @@ public abstract class HashcodeSolver {
      *  read the input and setup your data-structures.
      *
      * # Step 2
-     * {@link #solveAndPrintSolution(PrintStream)} is called next, here you
-     *  solve the problem, and print (only!) the solution to the provided
-     *  output PrintStream (similar usage as printing to System.out).
+     * {@link #solve()} is called next, here you
+     *  solve the problem.
+     *
+     * # Step 3
+     * {@link Solution#printTo(PrintStream)} is called, where you
+     *  print (only!) the solution to the provided output PrintStream
+     *  (similar usage as printing to System.out).
      *
      * @param file the input file to solve, and defines the output file
      * @param printToFile whether the output will be printed to the output file, otherwise it will be printed to System.out
-     * @param makeUniqueOutputFile whether to override the default output file, or create a new unique file
      */
-    public HashcodeSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
+    public HashcodeSolver(InputFile file, boolean printToFile) {
         this.file = file;
-
-        PrintStream out;
-        if (printToFile) {
-            out = prepareOutputFile(file, makeUniqueOutputFile);
-        } else {
-            out = System.out;
-        }
+        long now = System.currentTimeMillis();
         InputReader reader = new InputReader(file);
 
+        // step 1: parse input
         parse(reader);
-        solution = solveAndPrintSolution(out);
 
-        if (printToFile)
-            System.err.println("Printed output to " + file.outputFile() + " - Score: " + solution.score);
+        // step 2: solve and print to output
+        solution = solve();
+
+        // step 3: print solution
+        long score = solution.score;
+        PrintStream out;
+        if (printToFile) {
+            String fileName = file.outputFile(now, score);
+            File outputFile = new File(fileName);
+            out = prepareOutputFile(outputFile);
+            System.err.println("Printed output to " + fileName + " - Score: " + solution.score);
+        } else {
+            out = new IncineratorOutputStream();//System.out;
+        }
+        solution.printTo(out);
+        out.flush();
+
+        // track best solution
+        bestSolutionTracker.checkIfBestSolution(solution, now);
     }
 
-    private PrintStream prepareOutputFile(InputFile input, boolean makeUniqueOutputFile) {
+    private PrintStream prepareOutputFile(File file) {
         try {
-            File file = new File(input.outputFile(makeUniqueOutputFile));
             file.getParentFile().mkdirs();
             if (!file.exists()) {
                 file.createNewFile();
@@ -70,7 +87,7 @@ public abstract class HashcodeSolver {
      *
      * Note: don't print any debugging lines through out, use System.out for that.
      */
-    public abstract Solution solveAndPrintSolution(PrintStream out);
+    public abstract Solution solve();
 
     public Solution getSolution() {
         return solution;

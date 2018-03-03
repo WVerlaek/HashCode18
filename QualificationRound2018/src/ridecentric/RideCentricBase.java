@@ -10,18 +10,18 @@ import java.util.List;
 
 public abstract class RideCentricBase extends RidesSolver {
 
-    public RideCentricBase(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
-        super(file, printToFile, makeUniqueOutputFile);
+    public RideCentricBase(InputFile file, boolean printToFile) {
+        super(file, printToFile);
     }
 
     @Override
-    public SelfDrivingSolution solve() {
+    public SelfDrivingSolution solve2() {
         List<List<Ride>> ridesForCab = new ArrayList<>(grid.F);
         for (int i = 0; i < grid.F; i++) {
             ridesForCab.add(new ArrayList<>());
         }
         preprocess();
-        SelfDrivingSolution.Builder builder = new SelfDrivingSolution.Builder(this.grid);
+        SelfDrivingSolution.Builder builder = new SelfDrivingSolution.Builder(file, this.grid);
 
         while (!isDone()) {
             Ride nextRide = pickRide();

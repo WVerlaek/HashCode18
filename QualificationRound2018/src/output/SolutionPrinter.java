@@ -4,14 +4,13 @@ import model.Ride;
 
 import java.io.PrintStream;
 
-public class SolutionPrinter {
-
-    private SelfDrivingSolution solution;
+public class SolutionPrinter extends solver.SolutionPrinter<SelfDrivingSolution> {
 
     public SolutionPrinter(SelfDrivingSolution solution) {
-        this.solution = solution;
+        super(solution);
     }
 
+    @Override
     public void printTo(PrintStream out) {
         for (Ride[] rides : solution.vehicleRides) {
             int m = rides.length;

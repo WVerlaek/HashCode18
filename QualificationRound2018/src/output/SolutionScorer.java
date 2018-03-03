@@ -9,21 +9,19 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class SolutionScorer {
-
-    private SelfDrivingSolution solution;
-
+public class SolutionScorer extends solver.SolutionScorer<SelfDrivingSolution> {
     private IPoint[] driverLocations;
     private int nrDrivers;
     private List<Ride[]> rides;
 
     public SolutionScorer(SelfDrivingSolution solution) {
-        this.solution = solution;
+        super(solution);
 
         nrDrivers = solution.vehicleRides.size();
         rides = Collections.unmodifiableList(solution.vehicleRides);
     }
 
+    @Override
     public long getScore() {
         long totalScore = 0;
 

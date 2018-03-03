@@ -15,8 +15,8 @@ public abstract class RidesSolver extends HashcodeSolver {
     public Ride[] rides;
     public SelfDrivingSolution realSol;
 
-    public RidesSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
-        super(file, printToFile, makeUniqueOutputFile);
+    public RidesSolver(InputFile file, boolean printToFile) {
+        super(file, printToFile);
     }
 
     @Override
@@ -45,15 +45,11 @@ public abstract class RidesSolver extends HashcodeSolver {
     }
 
     @Override
-    public Solution solveAndPrintSolution(PrintStream out) {
-        SelfDrivingSolution solution = solve();
+    final public Solution solve() {
+        SelfDrivingSolution solution = solve2();
         realSol = solution;
-
-        //SolutionPrinter printer = new SolutionPrinter(solution);
-        //printer.printTo(out);
-
         return solution;
     }
 
-    public abstract SelfDrivingSolution solve();
+    public abstract SelfDrivingSolution solve2();
 }

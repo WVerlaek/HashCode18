@@ -2,7 +2,7 @@ package ridecentric;
 
 import base.InputFiles;
 import io.InputFile;
-import kdtree.KDTree;
+import datastructures.kdtree.KDTree;
 import model.Ride;
 import output.SolutionPrinter;
 
@@ -18,8 +18,8 @@ public class RideCentricSol extends RideCentricBase {
 
     int rideIndex = 0;
 
-    public RideCentricSol(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
-        super(file, printToFile, makeUniqueOutputFile);
+    public RideCentricSol(InputFile file, boolean printToFile) {
+        super(file, printToFile);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class RideCentricSol extends RideCentricBase {
         int reps = 100;
         for (int r = 0; r < reps; r++) {
             for (int i = 0; i < names.length; i++) {
-                RideCentricSol sol = new RideCentricSol(new InputFile(names[i]), false, true);
+                RideCentricSol sol = new RideCentricSol(new InputFile(names[i]), false);
                 if (sol.getSolution().score > scores[i]) {
                     scores[i] = sol.getSolution().score;
                     sols[i] = sol;

@@ -8,8 +8,8 @@ import java.io.PrintStream;
 
 public class BruteForceSolver extends HashcodeSolver {
 
-    public BruteForceSolver(InputFile file, boolean printToFile, boolean makeUniqueOutputFile) {
-        super(file, printToFile, makeUniqueOutputFile);
+    public BruteForceSolver(InputFile file, boolean printToFile) {
+        super(file, printToFile);
     }
 
     @Override
@@ -18,13 +18,12 @@ public class BruteForceSolver extends HashcodeSolver {
     }
 
     @Override
-    public Solution solveAndPrintSolution(PrintStream out) {
-        out.println("print is working!");
-        return new BruteForceSolution(0);
+    public Solution solve() {
+        return new BruteForceSolution(file, 0);
     }
 
 
     public static void main(String[] args) {
-        new BruteForceSolver(new InputFile(InputFiles.KITTENS), true, true);
+        new BruteForceSolver(new InputFile(InputFiles.KITTENS), true);
     }
 }
